@@ -205,7 +205,7 @@ func (b *builderImpl) Dirty() interface{} {
 		})
 	}
 
-	return reflect.StructOf(structFields)
+	return reflect.ValueOf(structFields)
 }
 
 func (f *fieldConfigImpl) SetType(typ interface{}) FieldConfig {

@@ -39,6 +39,7 @@ type (
 		// dStruct := builder.Build()
 		//
 		Build() DynamicStruct
+		Dirty() interface{}
 	}
 
 	// FieldConfig holds single field's definition.
@@ -191,6 +192,20 @@ func (b *builderImpl) Build() DynamicStruct {
 	return &dynamicStructImpl{
 		definition: reflect.StructOf(structFields),
 	}
+}
+
+func (b *builderImpl) Dirty() interface{} {
+	var structFields []reflect.StructField
+
+	for _, field := range b.fields {
+		structFields = append(structFields, reflect.StructField{
+			Name: field.name,
+			Type: reflect.TypeOf(field.typ),
+			Tag:  reflect.StructTag(field.tag),
+		})
+	}
+
+	return reflect.StructOf(structFields)
 }
 
 func (f *fieldConfigImpl) SetType(typ interface{}) FieldConfig {
